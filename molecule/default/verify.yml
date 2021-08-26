@@ -5,7 +5,6 @@
   tasks:
     - name: Gather service facts
       service_facts:
-        manager: auto
 
     - name: Verify that CloudBees is running
       assert:
