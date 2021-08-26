@@ -1,12 +1,12 @@
 ---
-- name: 'Download Cloudbees Repo Data'
+- name: Download Cloudbees Repo Data
   get_url:
     url: "{{ cloudbees.repo.external }}"
     dest: "{{ cloudbees.repo.local }}"
   tags:
     - cloudbees_repo
 
-- name: 'Download Cloudbees Repo Key'
+- name: Download Cloudbees Repo Key
   rpm_key:
     state: present
     key: "{{ cloudbees.repo.key }}"
