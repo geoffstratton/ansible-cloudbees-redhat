@@ -1,0 +1,19 @@
+---
+# OPTIONAL: Include prerequisite roles
+# - name: include requiements
+#   include_tasks: requirements.yml
+- name: 'Include cloudbees repo'
+  include_tasks: 'repo.yml'
+  tags:
+    - cloudbees_repo
+
+- name: 'Include cloudbees pkgs_to_install'
+  include_tasks: 'pkgs_to_install.yml'
+  tags:
+    - cloudbees_install
+
+- name: 'Include service'
+  include_tasks: 'service.yml'
+  when: ansible_virtualization_type != 'docker'
+  tags:
+    - cloudbees_service

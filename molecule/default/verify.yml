@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: all
+
+  tasks:
+    - name: Gather service facts
+      service_facts:
+        manager: auto
+
+    - name: Verify that CloudBees is running
+      assert:
+        that: "ansible_facts.services['{{ item }}'] is defined and ansible_facts.services['{{ item }}'].state == 'running'"
+      with_items:
+        - cloudbees-core-cm

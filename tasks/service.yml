@@ -1,0 +1,8 @@
+---
+- name: "Start / Enable {{ cloudbees.service.name }}"
+  service:
+    name: "{{ cloudbees.service.name }}"
+    state: "{{ cloudbees.service.state }}"
+    enabled: "{{ cloudbees.service.enabled }}"
+  tags:
+    - cloudbees_service

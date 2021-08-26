@@ -1,0 +1,10 @@
+---
+cloudbees:
+  repo:
+    key: 'https://downloads.cloudbees.com/cloudbees-core/traditional/client-master/rolling/rpm/cloudbees.com.key'
+    local: '/etc/yum.repos.d/cloudbees-core-cm.repo'
+    external: 'https://downloads.cloudbees.com/cloudbees-core/traditional/client-master/rolling/rpm/cloudbees-core-cm.repo'
+  service:
+    name: 'cloudbees-core-cm'
+    state: 'started'
+    enabled: true

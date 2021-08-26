@@ -1,0 +1,53 @@
+---
+- name: 'Install Cloudbees rpms'
+  yum:
+    name: "{{ lookup('vars', 'cloudbees_pkgs_to_install') }}"
+    enablerepo: "{{ lookup('vars', 'cloudbees_enablerepo') }}"
+    state: present
+    releasever: "{{ ansible_distribution_version }}"
+  when: ansible_distribution_major_version >= '7'
+  tags:
+    - cloudbees_install
+
+- name: 'Create common ansible/python36 venv folder'
+  file:
+    path: '/opt/py36'
+    state: directory
+    mode: '755'
+    owner: 'root'
+    group: 'root'
+  register: pyenv_folder
+  tags:
+    - cloudbees_install
+
+# Python virtual env for RHEL7
+- name: 'Create python and ansible venv'
+  shell: |
+    cd "{{ cloudbees_python_dir }}"
+    scl enable rh-python36 -- python3 -m venv py36-venv
+    source py36-venv/bin/activate
+  ignore_errors: yes
+  when:
+    - pyenv_folder.changed and ansible_distribution_major_version == '7'
+  tags:
+    - cloudbees_install
+
+- name: 'Create python env file'
+  template:
+    src: 'templates/py36.env.j2'
+    dest: "{{ cloudbees_python_dir }}"
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags:
+    - cloudbees_install
+
+- name: 'Install pip modules'
+  pip:
+    name: "{{ lookup('vars', 'cloudbees_pip_modules_' + ansible_distribution_major_version) }}"
+    executable: '/opt/rh/rh-python36/root/usr/bin/pip'
+  environment:
+    LANG: "{{ cloudbees_python_env }}"
+    LC_ALL: "{{ cloudbees_python_env }}"
+  tags:
+    - cloudbees_install

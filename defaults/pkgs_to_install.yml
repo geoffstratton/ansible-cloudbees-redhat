@@ -1,0 +1,19 @@
+---
+# defaults file for config
+cloudbees_pkgs_to_install:
+  - java-1.8.0-openjdk
+  - cloudbees-core-cm
+  - rh-python36
+  - rh-python36-python-pip
+
+cloudbees_enablerepo:
+  - cloudbees-core-cm
+  - rhel-7-server-rpms
+  - rhel-7-server-optional-rpms
+
+cloudbees_pip_modules_7:
+  - 'pytest'
+  - 'testinfra'
+
+cloudbees_python_dir: '/opt/py36'
+cloudbees_python_env: 'en_US.UTF-8'
